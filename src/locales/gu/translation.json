@@ -1,0 +1,48 @@
+{
+  "common": {
+    "dashboard": "ડેશબોર્ડ",
+    "settings": "સેટિંગ્સ",
+    "language": "ભાષા",
+    "logout": "લૉગ આઉટ",
+    "save": "ફેરફારો સાચવો",
+    "cancel": "રદ કરો",
+    "loading": "લોડ થઈ રહ્યું છે...",
+    "coming_soon": "ટૂંક સમયમાં આવી રહ્યું છે"
+  },
+  "nav": {
+    "admin": {
+      "dashboard": "ડેશબોર્ડ",
+      "agents": "એજન્ટો",
+      "admins": "એડમિન",
+      "customers": "ગ્રાહકો",
+      "referrals": "રેફરલ્સ",
+      "withdrawals": "ઉપાડ",
+      "settings": "સેટિંગ્સ",
+      "change_password": "પાસવર્ડ બદલો"
+    },
+    "agent": {
+      "dashboard": "એજન્ટ ડેશબોર્ડ",
+      "register_customer": "ગ્રાહક નોંધણી",
+      "my_customers": "મારા ગ્રાહકો",
+      "referrals": "રેફરલ્સ",
+      "documents": "દસ્તાવેજો",
+      "profile": "પ્રોફાઇલ",
+      "settings": "સેટિંગ્સ"
+    },
+    "withdrawal": {
+      "dashboard": "વૉલેટ ડેશબોર્ડ",
+      "request_withdrawal": "ઉપાડ વિનંતી",
+      "history": "ઉપાડ ઇતિહાસ",
+      "notifications": "સૂચનાઓ",
+      "profile": "પ્રોફાઇલ",
+      "settings": "સેટિંગ્સ"
+    }
+  },
+  "settings": {
+    "language_preference": "ભાષા પસંદગી",
+    "language_desc": "ઇન્ટરફેસ માટે તમારી પસંદીદા ભાષા પસંદ કરો.",
+    "english": "અંગ્રેજી",
+    "hindi": "હિન્દી",
+    "gujarati": "ગુજરાતી"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "common": {
+    "dashboard": "Dashboard",
+    "settings": "Settings",
+    "language": "Language",
+    "logout": "Logout",
+    "save": "Save Changes",
+    "cancel": "Cancel",
+    "loading": "Loading...",
+    "coming_soon": "Coming Soon"
+  },
+  "nav": {
+    "admin": {
+      "dashboard": "Dashboard",
+      "agents": "Agents",
+      "admins": "Admins",
+      "customers": "Customers",
+      "referrals": "Referrals",
+      "withdrawals": "Withdrawals",
+      "settings": "Settings",
+      "change_password": "Change Password"
+    },
+    "agent": {
+      "dashboard": "Agent Dashboard",
+      "register_customer": "Register Customer",
+      "my_customers": "My Customers",
+      "referrals": "Referrals",
+      "documents": "Documents",
+      "profile": "Profile",
+      "settings": "Settings"
+    },
+    "withdrawal": {
+      "dashboard": "Wallet Dashboard",
+      "request_withdrawal": "Request Withdrawal",
+      "history": "Withdrawal History",
+      "notifications": "Notifications",
+      "profile": "Profile",
+      "settings": "Settings"
+    }
+  },
+  "settings": {
+    "language_preference": "Language Preference",
+    "language_desc": "Select your preferred language for the interface.",
+    "english": "English",
+    "hindi": "Hindi",
+    "gujarati": "Gujarati"
+  }
+}
