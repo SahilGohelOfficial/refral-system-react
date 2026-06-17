@@ -14,6 +14,8 @@ const Admins = lazy(() => import('../pages/Admin/Admins'));
 const Customers = lazy(() => import('../pages/Admin/Customers'));
 const Referrals = lazy(() => import('../pages/Admin/Referrals'));
 const Withdrawals = lazy(() => import('../pages/Admin/Withdrawals'));
+const Forms = lazy(() => import('../pages/Admin/Forms'));
+const FormBuilderPage = lazy(() => import('../pages/Admin/FormBuilderPage'));
 const Settings = lazy(() => import('../pages/Settings/Settings'));
 const ChangePassword = lazy(() => import('../pages/ChangePassword/ChangePassword'));
 
@@ -64,6 +66,9 @@ const AppRoutes = () => {
           />
           <Route path="customers" element={<Customers />} />
           <Route path="referrals" element={<Referrals />} />
+          <Route path="forms" element={<Forms />} />
+          <Route path="forms/new" element={<FormBuilderPage />} />
+          <Route path="forms/:formId/edit" element={<FormBuilderPage />} />
           <Route path="withdrawals" element={<Withdrawals />} />
           <Route path="settings" element={<Settings />} />
           <Route path="change-password" element={<ChangePassword />} />

@@ -16,6 +16,7 @@
       "admins": "Admins",
       "customers": "Customers",
       "referrals": "Referrals",
+      "forms": "Forms",
       "withdrawals": "Withdrawals",
       "settings": "Settings",
       "change_password": "Change Password"
@@ -44,5 +45,28 @@
     "english": "English",
     "hindi": "Hindi",
     "gujarati": "Gujarati"
+  },
+  "forms": {
+    "title": "Dynamic Forms",
+    "subtitle": "Create and manage custom form schemas.",
+    "create": "Create Form",
+    "edit": "Edit Form",
+    "delete": "Delete Form",
+    "delete_title": "Delete Form",
+    "delete_confirm": "Delete \"{{title}}\"? This cannot be undone.",
+    "search_placeholder": "Search by title or ID...",
+    "empty": "No forms yet. Create your first form.",
+    "no_results": "No forms match your search.",
+    "col_title": "Title",
+    "col_fields": "Fields",
+    "col_updated": "Last Updated",
+    "col_actions": "Actions",
+    "created_success": "Form created successfully",
+    "updated_success": "Form updated successfully",
+    "deleted_success": "Form deleted successfully",
+    "save_error": "Failed to save form",
+    "not_found_title": "Form Not Found",
+    "not_found_desc": "The form you are looking for does not exist.",
+    "back_to_list": "Back to forms list"
   }
 }

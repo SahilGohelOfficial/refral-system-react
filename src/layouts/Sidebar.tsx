@@ -23,6 +23,7 @@ const adminNavItems = [
   { path: '/admin/admins', labelKey: 'nav.admin.admins', icon: ShieldCheck, superAdminOnly: true },
   { path: '/admin/customers', labelKey: 'nav.admin.customers', icon: Users },
   { path: '/admin/referrals', labelKey: 'nav.admin.referrals', icon: UserPlus },
+  { path: '/admin/forms', labelKey: 'nav.admin.forms', icon: FileText },
   { path: '/admin/withdrawals', labelKey: 'nav.admin.withdrawals', icon: Wallet },
   { path: '/admin/settings', labelKey: 'nav.admin.settings', icon: Settings },
 ];
