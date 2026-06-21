@@ -52,7 +52,7 @@ Because there are three distinct portals, the language selector will be made ava
 
 ### Agent Portal
 - **Location**: `/agent/profile` or `/agent/settings`
-- **Details**: Agents can change the language of their dashboard and customer registration forms to better serve local clients.
+- **Details**: Agents can change the language of their dashboard and user registration forms to better serve local clients.
 
 ### User Withdrawal Portal
 - **Location**: `/withdrawal/profile` or `/withdrawal/settings`
@@ -74,4 +74,4 @@ To ensure the language switching feels instantaneous and premium:
 3. Scaffold the `locales` JSON files for `en`, `hi`, and `gu`.
 4. Build a reusable `<LanguageSelector />` React component.
 5. Embed the `<LanguageSelector />` into the Settings pages of all three portals.
-6. Begin wrapping hardcoded UI text (like "Dashboard", "Total Customers") with the `t()` translation function.
+6. Begin wrapping hardcoded UI text (like "Dashboard", "Total Users") with the `t()` translation function.

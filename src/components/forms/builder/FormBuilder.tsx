@@ -19,6 +19,7 @@ import FieldPalette from './FieldPalette'
 import FieldPropertiesPanel from './FieldPropertiesPanel'
 import FormCanvas from './FormCanvas'
 import FormPreview from './FormPreview'
+import FormSettingsPanel from './FormSettingsPanel'
 
 function fieldIndexId(index: number): string {
   return `field-index-${index}`
@@ -181,6 +182,17 @@ export default function FormBuilder({
                 </button>
               </div>
             )}
+
+            <FormSettingsPanel
+              isPublished={schema.isPublished ?? true}
+              submissionUserType={schema.submissionUserType ?? 'agent'}
+              onPublishedChange={(isPublished) =>
+                dispatch({ type: 'setIsPublished', isPublished })
+              }
+              onSubmissionUserTypeChange={(submissionUserType) =>
+                dispatch({ type: 'setSubmissionUserType', submissionUserType })
+              }
+            />
 
             <div className="rounded-[20px] border border-border bg-card p-4">
               <FieldPalette onAddField={handlePaletteClick} />

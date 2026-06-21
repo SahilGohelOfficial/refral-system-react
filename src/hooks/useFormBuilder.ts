@@ -22,6 +22,8 @@ type BuilderAction =
   | { type: 'selectField'; index: number | null }
   | { type: 'setTitle'; title: string }
   | { type: 'setDescription'; description: string }
+  | { type: 'setIsPublished'; isPublished: boolean }
+  | { type: 'setSubmissionUserType'; submissionUserType: FormSchema['submissionUserType'] }
   | { type: 'setBuilderError'; error: string }
   | { type: 'clearBuilderError' }
 
@@ -168,6 +170,19 @@ function reducer(state: BuilderState, action: BuilderAction): BuilderState {
       return {
         ...state,
         schema: { ...state.schema, description: action.description },
+      }
+    case 'setIsPublished':
+      return {
+        ...state,
+        schema: { ...state.schema, isPublished: action.isPublished },
+      }
+    case 'setSubmissionUserType':
+      return {
+        ...state,
+        schema: {
+          ...state.schema,
+          submissionUserType: action.submissionUserType,
+        },
       }
     case 'setBuilderError':
       return { ...state, builderError: action.error }

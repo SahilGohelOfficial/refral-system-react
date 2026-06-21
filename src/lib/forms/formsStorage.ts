@@ -1,5 +1,6 @@
 import type { FormSchema } from '../../types/form'
-import { validateFormSchema } from './fieldId'
+
+/** @deprecated Use forms.service.ts API calls instead. */import { validateFormSchema } from './fieldId'
 
 const STORAGE_KEY = 'admin:forms'
 

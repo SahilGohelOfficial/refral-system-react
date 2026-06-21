@@ -1,3 +1,5 @@
+export type SubmissionUserType = 'agent' | 'user'
+
 export type FieldType =
   | 'text'
   | 'textarea'
@@ -35,6 +37,8 @@ export type FormSchema = {
   fields: FormField[]
   createdAt?: string
   updatedAt?: string
+  isPublished?: boolean
+  submissionUserType?: SubmissionUserType
 }
 
 export type FormAnswerValue = string | string[] | boolean | File | null

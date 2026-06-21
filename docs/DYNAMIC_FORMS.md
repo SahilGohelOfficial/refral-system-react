@@ -1,5 +1,7 @@
 # Dynamic Forms — Admin Module Implementation Guide
 
+> **API wiring:** see [FORMS_API_IMPLEMENTATION.md](FORMS_API_IMPLEMENTATION.md) for connecting this UI to the backend (`POST/PUT/DELETE /forms`).
+
 ## Overview
 
 The admin **Dynamic Forms** module lets admins create, edit, and delete form schemas through a drag-and-drop builder. This is a **UI-only prototype**: all data is stored in `localStorage` under the key `admin:forms`. No API calls are made.

@@ -52,7 +52,7 @@ const ChooseLogin = () => {
               <Users className="text-primary" size={32} />
             </div>
             <h3 className="text-2xl font-bold text-text mb-3">Agent Portal</h3>
-            <p className="text-sm text-text-secondary leading-relaxed">Partner Access & Customer Onboarding</p>
+            <p className="text-sm text-text-secondary leading-relaxed">Partner Access & User Onboarding</p>
           </button>
 
           {/* User Withdrawal Portal */}
@@ -70,6 +70,17 @@ const ChooseLogin = () => {
             <p className="text-sm text-text-secondary leading-relaxed">Wallet Management & Payment Requests</p>
           </button>
         </div>
+
+        <p className="mt-10 text-center text-sm text-text-secondary">
+          New user?{' '}
+          <button
+            type="button"
+            onClick={() => navigate('/register')}
+            className="text-primary hover:underline font-medium"
+          >
+            Register for referral
+          </button>
+        </p>
       </div>
     </div>
   );

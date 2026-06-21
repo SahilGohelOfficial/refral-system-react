@@ -1,16 +1,27 @@
-# React + Vite
+# Referral System (React)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend for the multi-portal referral system — Admin, Agent, and User Withdrawal portals.
 
-Currently, two official plugins are available:
+## Documentation
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+All project documentation lives in [`docs/`](docs/):
 
-## React Compiler
+| Document | Description |
+|----------|-------------|
+| [PROTOTYPE.md](docs/PROTOTYPE.md) | UI/UX specification, routes, and user journeys |
+| [API_REFERENCE.md](docs/API_REFERENCE.md) | Frontend API reference (admins, agents) |
+| [DYNAMIC_FORMS.md](docs/DYNAMIC_FORMS.md) | Dynamic form builder guide |
+| [FORMS_API_IMPLEMENTATION.md](docs/FORMS_API_IMPLEMENTATION.md) | Forms module API wiring |
+| [LANGUAGE_FEATURE.md](docs/LANGUAGE_FEATURE.md) | i18n (en / hi / gu) specification |
+| [AGENT_PROFILE_IMPLEMENTATION.md](docs/AGENT_PROFILE_IMPLEMENTATION.md) | Agent sign-up, profile, and password |
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Backend API docs: [`api/docs/`](api/docs/)
 
-## Expanding the ESLint configuration
+## Development
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm install
+npm run dev
+```
+
+Set `VITE_API_URL` in `.env` to point at the backend (default in code if unset).

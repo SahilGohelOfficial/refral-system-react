@@ -2,10 +2,6 @@ import type { FieldType, FormField, FormSchema } from '../../types/form'
 import { FIELD_TYPES_WITH_OPTIONS } from '../../types/form'
 import { assertUniqueFieldLabel, labelToFieldId } from './fieldId'
 
-export function createFormId(): string {
-  return `frm_${crypto.randomUUID().slice(0, 8)}`
-}
-
 const DEFAULT_LABELS: Record<FieldType, string> = {
   text: 'Text Field',
   textarea: 'Textarea Field',
@@ -44,13 +40,12 @@ export function createDefaultField(
 }
 
 export function createEmptySchema(): FormSchema {
-  const now = new Date().toISOString()
   return {
-    formId: createFormId(),
+    formId: '',
     title: 'Untitled Form',
     description: '',
     fields: [],
-    createdAt: now,
-    updatedAt: now,
+    isPublished: true,
+    submissionUserType: 'agent',
   }
 }

@@ -16,14 +16,21 @@ export interface Admin {
 export interface Agent {
   id: string;
   agentLoginId: string;
-  name: string;
-  phone: string | null;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string | null;
   email: string | null;
   isActive: boolean;
+  state: string | null;
+  city: string | null;
   lastLogin: string | null;
-  createdById: string;
+  createdById: string | null;
   createdAt: string;
   updatedAt: string;
+}
+
+export function formatAgentName(agent: Pick<Agent, 'firstName' | 'lastName'>): string {
+  return `${agent.firstName} ${agent.lastName}`.trim();
 }
 
 export interface AgentCredentials {
@@ -62,15 +69,92 @@ export interface ResetAgentPasswordResponse {
 }
 
 export interface CreateAgentPayload {
-  name: string;
-  phone?: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber?: string;
   email?: string;
+  state: string;
+  city: string;
 }
 
 export interface UpdateAgentPayload {
-  name?: string;
-  phone?: string;
+  firstName?: string;
+  lastName?: string;
+  phoneNumber?: string;
   email?: string;
+  state?: string;
+  city?: string;
+}
+
+export interface SignUpAgentPayload {
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  email: string;
+  state: string;
+  city: string;
+  password: string;
+}
+
+export interface UpdateAgentProfilePayload {
+  firstName?: string;
+  lastName?: string;
+  phoneNumber?: string;
+  email?: string;
+  state?: string;
+  city?: string;
+}
+
+export interface ChangeAgentPasswordPayload {
+  currentPassword: string;
+  newPassword: string;
+}
+
+export interface State {
+  id: number;
+  name: string;
+  stateCode: string;
+}
+
+export interface City {
+  id: number;
+  name: string;
+  stateId: number;
+}
+
+export interface ReferralUser {
+  id: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  email: string;
+  agentId: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export function formatUserName(user: Pick<ReferralUser, 'firstName' | 'lastName'>): string {
+  return `${user.firstName} ${user.lastName}`.trim();
+}
+
+export interface UpdateUserPayload {
+  firstName?: string;
+  lastName?: string;
+  phoneNumber?: string;
+  email?: string;
+}
+
+export interface CreateUserPayload {
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  email: string;
+}
+
+export interface AssignAgentPayload {
+  agentId: string;
+  stateId: number;
+  cityId: number;
 }
 
 export interface CreateAdminPayload {
@@ -84,4 +168,61 @@ export interface UpdateAdminPayload {
   name?: string;
   email?: string;
   role?: AdminRole;
+}
+
+export type SubmissionUserType = 'agent' | 'user';
+
+export interface FormSummary {
+  id: string;
+  title: string;
+  description: string | null;
+  isPublished: boolean;
+  submissionUserType: SubmissionUserType;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ApiFormField {
+  id: string;
+  type: string;
+  label: string;
+  placeholder?: string;
+  options?: string[];
+  validation?: {
+    required?: boolean;
+    minLength?: number;
+    maxLength?: number;
+    pattern?: string;
+    allowedFileTypes?: string[];
+    maxFileSizeMB?: number;
+    errorMessage?: string;
+  };
+}
+
+export interface Form {
+  id: string;
+  title: string;
+  description: string | null;
+  fields: ApiFormField[];
+  isPublished: boolean;
+  submissionUserType: SubmissionUserType;
+  createdById: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateFormPayload {
+  title: string;
+  description?: string;
+  fields?: ApiFormField[];
+  isPublished?: boolean;
+  submissionUserType: SubmissionUserType;
+}
+
+export interface UpdateFormPayload {
+  title?: string;
+  description?: string;
+  fields?: ApiFormField[];
+  isPublished?: boolean;
+  submissionUserType?: SubmissionUserType;
 }
