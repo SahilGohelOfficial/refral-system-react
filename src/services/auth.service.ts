@@ -39,7 +39,7 @@ export function changeAdminPassword(currentPassword: string, newPassword: string
 }
 
 export function changeAgentPassword(currentPassword: string, newPassword: string) {
-  return api<MessageResponse>('/agents/me/password', {
+  return api<MessageResponse>('/agents/me/change-password', {
     method: 'PATCH',
     body: JSON.stringify({ currentPassword, newPassword }),
   });

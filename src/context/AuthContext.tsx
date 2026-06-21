@@ -13,7 +13,8 @@ import {
   setUnauthorizedHandler,
 } from '../lib/api';
 import { isAdminPortalRole } from '../lib/roles';
-import type { ApiError, PortalRole } from '../types/api';
+import type { ApiError, PortalRole, Agent } from '../types/api';
+import { formatAgentName } from '../types/api';
 
 export interface User {
   id: string;
@@ -28,6 +29,7 @@ interface AuthContextType {
   loading: boolean;
   isAuthenticated: boolean;
   login: (identifier: string, password: string, portal: PortalRole) => Promise<void>;
+  loginWithAgentSession: (accessToken: string, agent: Agent) => void;
   logout: () => Promise<void>;
 }
 
@@ -102,7 +104,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         persistSession(
           {
             id: agent.id,
-            name: agent.name,
+            name: formatAgentName(agent),
             email: agent.email,
             role: 'agent',
             agentLoginId: agent.agentLoginId,
@@ -165,9 +167,23 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
+  const loginWithAgentSession = (accessToken: string, agent: Agent) => {
+    persistSession(
+      {
+        id: agent.id,
+        name: formatAgentName(agent),
+        email: agent.email,
+        role: 'agent',
+        agentLoginId: agent.agentLoginId,
+      },
+      accessToken,
+    );
+  };
+
   const value = {
     user,
     login,
+    loginWithAgentSession,
     logout,
     loading,
     isAuthenticated: !!user && !!getAccessToken(),

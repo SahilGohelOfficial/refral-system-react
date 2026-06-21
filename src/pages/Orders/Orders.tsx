@@ -9,11 +9,11 @@ import Input from '../../components/ui/Input';
 import Pagination from '../../components/ui/Pagination';
 
 const mockOrders = [
-  { id: '#ORD-7023', customer: 'Alice Johnson', date: 'Today, 10:45 AM', total: '$149.00', status: 'Completed', items: 3 },
-  { id: '#ORD-7022', customer: 'Bob Smith', date: 'Yesterday, 02:15 PM', total: '$29.99', status: 'Processing', items: 1 },
-  { id: '#ORD-7021', customer: 'Charlie Brown', date: 'Oct 24, 2023', total: '$89.50', status: 'Pending', items: 2 },
-  { id: '#ORD-7020', customer: 'Diana Prince', date: 'Oct 23, 2023', total: '$210.00', status: 'Completed', items: 5 },
-  { id: '#ORD-7019', customer: 'Evan Wright', date: 'Oct 22, 2023', total: '$15.00', status: 'Cancelled', items: 1 },
+  { id: '#ORD-7023', user: 'Alice Johnson', date: 'Today, 10:45 AM', total: '$149.00', status: 'Completed', items: 3 },
+  { id: '#ORD-7022', user: 'Bob Smith', date: 'Yesterday, 02:15 PM', total: '$29.99', status: 'Processing', items: 1 },
+  { id: '#ORD-7021', user: 'Charlie Brown', date: 'Oct 24, 2023', total: '$89.50', status: 'Pending', items: 2 },
+  { id: '#ORD-7020', user: 'Diana Prince', date: 'Oct 23, 2023', total: '$210.00', status: 'Completed', items: 5 },
+  { id: '#ORD-7019', user: 'Evan Wright', date: 'Oct 22, 2023', total: '$15.00', status: 'Cancelled', items: 1 },
 ];
 
 const Orders = () => {
@@ -24,14 +24,14 @@ const Orders = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-text">Orders</h1>
-          <p className="text-sm text-text-secondary mt-1">Track and manage customer orders.</p>
+          <p className="text-sm text-text-secondary mt-1">Track and manage user orders.</p>
         </div>
       </div>
 
       <Card className="p-0 overflow-hidden">
         <div className="p-4 border-b border-border flex flex-col sm:flex-row gap-4 justify-between items-center bg-surface/50 rounded-t-[20px]">
           <div className="w-full sm:w-96">
-            <Input icon={Search} placeholder="Search orders by ID or customer..." />
+            <Input icon={Search} placeholder="Search orders by ID or user..." />
           </div>
           <Button variant="secondary" className="gap-2 shrink-0">
             <Filter size={16} />
@@ -42,7 +42,7 @@ const Orders = () => {
           <TableHeader>
             <TableRow>
               <TableHead>Order ID</TableHead>
-              <TableHead>Customer</TableHead>
+              <TableHead>User</TableHead>
               <TableHead>Date</TableHead>
               <TableHead>Items</TableHead>
               <TableHead>Total</TableHead>
@@ -56,7 +56,7 @@ const Orders = () => {
                 <TableCell>
                   <span className="font-medium text-primary cursor-pointer hover:underline">{order.id}</span>
                 </TableCell>
-                <TableCell>{order.customer}</TableCell>
+                <TableCell>{order.user}</TableCell>
                 <TableCell>{order.date}</TableCell>
                 <TableCell>{order.items}</TableCell>
                 <TableCell className="font-medium text-text">{order.total}</TableCell>

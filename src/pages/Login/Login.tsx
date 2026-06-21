@@ -5,10 +5,12 @@ import { useAuth } from '../../context/AuthContext';
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
 import { useNavigate, Navigate, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { getDashboardPath } from '../../lib/roles';
 
 const Login = () => {
   const { login, isAuthenticated, user } = useAuth();
+  const { t } = useTranslation();
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -141,6 +143,18 @@ const Login = () => {
               <br />
               {demoHint}
             </p>
+            {portal === 'agent' && (
+              <p className="mt-3 text-sm text-text-secondary">
+                {t('agent.signup.new_agent', 'New agent?')}{' '}
+                <button
+                  type="button"
+                  onClick={() => navigate('/agent/sign-up')}
+                  className="text-primary hover:underline font-medium"
+                >
+                  {t('agent.signup.link', 'Sign up')}
+                </button>
+              </p>
+            )}
           </div>
         </div>
       </div>

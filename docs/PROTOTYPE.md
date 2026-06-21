@@ -14,7 +14,7 @@ Implement three login types from a common login entry page.
 ### Roles & Demo Credentials
 1. **Admin**: Full system control, analytics, and management.
    - *Email:* `admin@example.com` | *Password:* `password`
-2. **Agent**: Referral tracking, customer onboarding, document management.
+2. **Agent**: Referral tracking, user onboarding, document management.
    - *Email:* `agent@example.com` | *Password:* `password`
 3. **User Withdrawal**: Wallet management and withdrawal requests.
    - *Email:* `user@example.com` | *Password:* `password`
@@ -52,7 +52,7 @@ Choose Your Portal
 ### 3.1 Admin Portal
 **Dashboard Features**
 - Total Agents (KPI Card)
-- Total Customers (KPI Card)
+- Total Users (KPI Card)
 - Total Referrals (KPI Card)
 - User Withdrawal Requests (KPI Card)
 - Daily Registrations (Chart)
@@ -63,7 +63,7 @@ Choose Your Portal
 - Authentication
 - Admin Management
 - Agent Management
-- Customer Management
+- User Management
 - Referral Management
 - Dynamic Form Builder
 - Reports & Analytics
@@ -76,8 +76,8 @@ Choose Your Portal
 
 ### 3.2 Agent Portal
 **Dashboard Features**
-- My Customers
-- Customer Registrations
+- My Users
+- User Registrations
 - Referral Count
 - Referral Tree (Visual map)
 - Pending Documents
@@ -86,7 +86,7 @@ Choose Your Portal
 **Modules**
 - Profile Management
 - Couple Registration
-- Customer Management
+- User Management
 - Upload Documents
 - Referral Tracking
 - Referral Tree
@@ -150,13 +150,13 @@ Choose Your Portal
 
 ## 5. User Journeys & Navigation Flows
 
-### Journey: Agent Onboarding a Customer
+### Journey: Agent Onboarding a User
 1. Agent logs in via `/agent/login`.
 2. Lands on Agent Dashboard (`/agent/dashboard`).
-3. Clicks "Register Customer" in sidebar (`/agent/register-customer`).
+3. Clicks "Register User" in sidebar (`/agent/register-customer`).
 4. Fills out multi-step couple registration form.
 5. Uploads necessary documents (triggers Upload Modal).
-6. Submits form -> Shows success toast, redirects to "My Customers" list.
+6. Submits form -> Shows success toast, redirects to "My Users" list.
 
 ### Journey: User Requesting Withdrawal
 1. User logs in via `/withdrawal/login`.
@@ -214,7 +214,7 @@ Choose Your Portal
 ### Admin Sidebar
 - Dashboard
 - Agents
-- Customers
+- Users
 - Referrals
 - Forms
 - Reports
@@ -227,8 +227,8 @@ Choose Your Portal
 
 ### Agent Sidebar
 - Dashboard
-- Register Customer
-- My Customers
+- Register User
+- My Users
 - Referrals
 - Documents
 - Profile
@@ -246,5 +246,5 @@ Choose Your Portal
 
 ## 8. Role Permissions (Summary)
 - **Admin**: Read/Write/Delete on all collections (Users, Agents, Referrals, Withdrawals, Settings).
-- **Agent**: Read/Write on their own Customers and Documents. Read-only on their Referral Tree and own Profile. Cannot access Admin or other Agents' data.
+- **Agent**: Read/Write on their own Users and Documents. Read-only on their Referral Tree and own Profile. Cannot access Admin or other Agents' data.
 - **User Withdrawal**: Read/Write on their own Withdrawal Requests. Read-only on Wallet Balance and Withdrawal History. Cannot access Agent or Admin data.

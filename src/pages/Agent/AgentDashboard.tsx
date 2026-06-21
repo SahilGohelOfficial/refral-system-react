@@ -32,8 +32,8 @@ const AgentDashboard = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard title="My Customers" value="42" icon={Users} trend={12} />
-        <StatCard title="Customer Registrations" value="18" icon={UserPlus} trend={5} />
+        <StatCard title="My Users" value="42" icon={Users} trend={12} />
+        <StatCard title="User Registrations" value="18" icon={UserPlus} trend={5} />
         <StatCard title="Referral Count" value="256" icon={Link} trend={24} />
         <StatCard title="Pending Documents" value="3" icon={FileText} trend={-1} />
       </div>
@@ -42,7 +42,7 @@ const AgentDashboard = () => {
         <div className="text-center">
           <Users size={48} className="text-primary mx-auto mb-4 opacity-50" />
           <h3 className="text-xl font-bold text-text mb-2">Referral Tree (Coming Soon)</h3>
-          <p className="text-text-secondary max-w-md mx-auto">The visual referral tree map will be implemented here. It will allow you to explore your customer network dynamically.</p>
+          <p className="text-text-secondary max-w-md mx-auto">The visual referral tree map will be implemented here. It will allow you to explore your user network dynamically.</p>
         </div>
       </div>
     </div>

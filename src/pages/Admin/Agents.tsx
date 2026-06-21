@@ -17,6 +17,7 @@ import Badge from '../../components/ui/Badge';
 import { Dropdown, DropdownItem } from '../../components/ui/Dropdown';
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
+import Select from '../../components/ui/Select';
 import Modal from '../../components/ui/Modal';
 import {
   createAgent,
@@ -26,21 +27,29 @@ import {
   updateAgent,
   updateAgentStatus,
 } from '../../services/agents.service';
+import { listCities, listStates } from '../../services/location.service';
 import { formatApiError } from '../../lib/api';
-import type { Agent, AgentCredentials, ApiError } from '../../types/api';
+import type { Agent, AgentCredentials, ApiError, City, State } from '../../types/api';
+import { formatAgentName } from '../../types/api';
 
 const Agents = () => {
   const [agents, setAgents] = useState<Agent[]>([]);
+  const [states, setStates] = useState<State[]>([]);
+  const [cities, setCities] = useState<City[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [editingAgent, setEditingAgent] = useState<Agent | null>(null);
   const [credentials, setCredentials] = useState<AgentCredentials | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [loadingCities, setLoadingCities] = useState(false);
 
-  const [formName, setFormName] = useState('');
+  const [formFirstName, setFormFirstName] = useState('');
+  const [formLastName, setFormLastName] = useState('');
   const [formEmail, setFormEmail] = useState('');
-  const [formPhone, setFormPhone] = useState('');
+  const [formPhoneNumber, setFormPhoneNumber] = useState('');
+  const [formStateId, setFormStateId] = useState('');
+  const [formCityId, setFormCityId] = useState('');
 
   const fetchAgents = useCallback(async () => {
     setLoading(true);
@@ -54,14 +63,60 @@ const Agents = () => {
     }
   }, []);
 
+  const fetchStates = useCallback(async () => {
+    try {
+      const data = await listStates();
+      setStates(data);
+    } catch (error) {
+      toast.error(formatApiError(error as ApiError));
+    }
+  }, []);
+
+  const loadCitiesForState = useCallback(async (stateId: number) => {
+    setLoadingCities(true);
+    try {
+      const data = await listCities(stateId);
+      setCities(data);
+      return data;
+    } catch (error) {
+      toast.error(formatApiError(error as ApiError));
+      setCities([]);
+      return [];
+    } finally {
+      setLoadingCities(false);
+    }
+  }, []);
+
   useEffect(() => {
     fetchAgents();
-  }, [fetchAgents]);
+    fetchStates();
+  }, [fetchAgents, fetchStates]);
+
+  useEffect(() => {
+    if (!formStateId) {
+      setCities([]);
+      setFormCityId('');
+      return;
+    }
+    void loadCitiesForState(Number(formStateId));
+  }, [formStateId, loadCitiesForState]);
 
   const resetForm = () => {
-    setFormName('');
+    setFormFirstName('');
+    setFormLastName('');
     setFormEmail('');
-    setFormPhone('');
+    setFormPhoneNumber('');
+    setFormStateId('');
+    setFormCityId('');
+    setCities([]);
+  };
+
+  const normalizePhone = (value: string) => value.replace(/\D/g, '').slice(0, 10);
+
+  const resolveLocationNames = () => {
+    const state = states.find((s) => s.id === Number(formStateId));
+    const city = cities.find((c) => c.id === Number(formCityId));
+    return { state: state?.name ?? '', city: city?.name ?? '' };
   };
 
   const openCreate = () => {
@@ -69,21 +124,45 @@ const Agents = () => {
     setIsCreateOpen(true);
   };
 
-  const openEdit = (agent: Agent) => {
-    setFormName(agent.name);
+  const openEdit = async (agent: Agent) => {
+    setFormFirstName(agent.firstName);
+    setFormLastName(agent.lastName);
     setFormEmail(agent.email ?? '');
-    setFormPhone(agent.phone ?? '');
+    setFormPhoneNumber(agent.phoneNumber ?? '');
+    setFormStateId('');
+    setFormCityId('');
+    setCities([]);
+
+    const matchedState = states.find((s) => s.name === agent.state);
+    if (matchedState) {
+      setFormStateId(String(matchedState.id));
+      const cityList = await loadCitiesForState(matchedState.id);
+      const matchedCity = cityList.find((c) => c.name === agent.city);
+      if (matchedCity) {
+        setFormCityId(String(matchedCity.id));
+      }
+    }
+
     setEditingAgent(agent);
   };
 
   const handleCreate = async (e: FormEvent) => {
     e.preventDefault();
+    const { state, city } = resolveLocationNames();
+    if (!state || !city) {
+      toast.error('Please select state and city');
+      return;
+    }
+
     setSubmitting(true);
     try {
       const result = await createAgent({
-        name: formName,
+        firstName: formFirstName.trim(),
+        lastName: formLastName.trim(),
         email: formEmail || undefined,
-        phone: formPhone || undefined,
+        phoneNumber: formPhoneNumber || undefined,
+        state,
+        city,
       });
       toast.success('Agent created successfully');
       setIsCreateOpen(false);
@@ -101,12 +180,21 @@ const Agents = () => {
     e.preventDefault();
     if (!editingAgent) return;
 
+    const { state, city } = resolveLocationNames();
+    if (!state || !city) {
+      toast.error('Please select state and city');
+      return;
+    }
+
     setSubmitting(true);
     try {
       await updateAgent(editingAgent.id, {
-        name: formName,
+        firstName: formFirstName.trim(),
+        lastName: formLastName.trim(),
         email: formEmail || undefined,
-        phone: formPhone || undefined,
+        phoneNumber: formPhoneNumber || undefined,
+        state,
+        city,
       });
       toast.success('Agent updated successfully');
       setEditingAgent(null);
@@ -140,7 +228,7 @@ const Agents = () => {
   };
 
   const handleDelete = async (agent: Agent) => {
-    if (!window.confirm(`Delete agent "${agent.name}"? This cannot be undone.`)) {
+    if (!window.confirm(`Delete agent "${formatAgentName(agent)}"? This cannot be undone.`)) {
       return;
     }
 
@@ -163,24 +251,48 @@ const Agents = () => {
     }
   };
 
+  const formatLocation = (agent: Agent) => {
+    if (agent.city && agent.state) return `${agent.city}, ${agent.state}`;
+    if (agent.state) return agent.state;
+    if (agent.city) return agent.city;
+    return '—';
+  };
+
   const filteredAgents = agents.filter((agent) => {
     const query = search.toLowerCase();
+    const fullName = formatAgentName(agent).toLowerCase();
     return (
-      agent.name.toLowerCase().includes(query) ||
+      fullName.includes(query) ||
+      agent.firstName.toLowerCase().includes(query) ||
+      agent.lastName.toLowerCase().includes(query) ||
       agent.agentLoginId.toLowerCase().includes(query) ||
-      (agent.email?.toLowerCase().includes(query) ?? false)
+      (agent.email?.toLowerCase().includes(query) ?? false) ||
+      (agent.state?.toLowerCase().includes(query) ?? false) ||
+      (agent.city?.toLowerCase().includes(query) ?? false)
     );
   });
 
+  const stateOptions = states.map((s) => ({ value: s.id, label: s.name }));
+  const cityOptions = cities.map((c) => ({ value: c.id, label: c.name }));
+
   const agentForm = (onSubmit: (e: FormEvent) => void, submitLabel: string) => (
     <form onSubmit={onSubmit} className="space-y-4">
-      <Input
-        label="Name"
-        value={formName}
-        onChange={(e) => setFormName(e.target.value)}
-        required
-        disabled={submitting}
-      />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <Input
+          label="First name"
+          value={formFirstName}
+          onChange={(e) => setFormFirstName(e.target.value)}
+          required
+          disabled={submitting}
+        />
+        <Input
+          label="Last name"
+          value={formLastName}
+          onChange={(e) => setFormLastName(e.target.value)}
+          required
+          disabled={submitting}
+        />
+      </div>
       <Input
         label="Email"
         type="email"
@@ -190,9 +302,49 @@ const Agents = () => {
       />
       <Input
         label="Phone"
-        value={formPhone}
-        onChange={(e) => setFormPhone(e.target.value)}
+        value={formPhoneNumber}
+        onChange={(e) => setFormPhoneNumber(normalizePhone(e.target.value))}
+        placeholder="9876543210"
+        inputMode="numeric"
+        maxLength={10}
         disabled={submitting}
+      />
+      <Select
+        label="State"
+        value={formStateId}
+        onChange={(e) => {
+          setFormStateId(e.target.value);
+          setFormCityId('');
+        }}
+        options={[
+          {
+            value: '',
+            label: stateOptions.length === 0 ? 'No states available' : 'Select state',
+          },
+          ...stateOptions,
+        ]}
+        disabled={submitting || stateOptions.length === 0}
+        required
+      />
+      <Select
+        label="City"
+        value={formCityId}
+        onChange={(e) => setFormCityId(e.target.value)}
+        options={[
+          {
+            value: '',
+            label: !formStateId
+              ? 'Select state first'
+              : loadingCities
+                ? 'Loading cities...'
+                : cityOptions.length === 0
+                  ? 'No cities available'
+                  : 'Select city',
+          },
+          ...cityOptions,
+        ]}
+        disabled={submitting || !formStateId || loadingCities}
+        required
       />
       <div className="flex justify-end gap-2 pt-2">
         <Button
@@ -234,7 +386,7 @@ const Agents = () => {
           <div className="w-full sm:w-96">
             <Input
               icon={Search}
-              placeholder="Search by name, login ID, or email..."
+              placeholder="Search by name, login ID, email, or location..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -255,6 +407,7 @@ const Agents = () => {
               <TableRow>
                 <TableHead>Agent</TableHead>
                 <TableHead>Login ID</TableHead>
+                <TableHead>Location</TableHead>
                 <TableHead>Phone</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
@@ -266,10 +419,10 @@ const Agents = () => {
                   <TableCell>
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">
-                        {agent.name.charAt(0)}
+                        {agent.firstName.charAt(0)}
                       </div>
                       <div>
-                        <div className="font-medium text-text">{agent.name}</div>
+                        <div className="font-medium text-text">{formatAgentName(agent)}</div>
                         <div className="text-xs text-text-secondary">
                           {agent.email ?? 'No email'}
                         </div>
@@ -279,7 +432,8 @@ const Agents = () => {
                   <TableCell>
                     <span className="font-mono text-sm">{agent.agentLoginId}</span>
                   </TableCell>
-                  <TableCell>{agent.phone ?? '—'}</TableCell>
+                  <TableCell>{formatLocation(agent)}</TableCell>
+                  <TableCell>{agent.phoneNumber ?? '—'}</TableCell>
                   <TableCell>
                     <Badge variant={agent.isActive ? 'success' : 'neutral'}>
                       {agent.isActive ? 'Active' : 'Inactive'}
@@ -294,7 +448,7 @@ const Agents = () => {
                         </button>
                       }
                     >
-                      <DropdownItem onClick={() => openEdit(agent)}>
+                      <DropdownItem onClick={() => void openEdit(agent)}>
                         <Edit2 size={14} /> Edit Agent
                       </DropdownItem>
                       <DropdownItem onClick={() => handleResetPassword(agent)}>
